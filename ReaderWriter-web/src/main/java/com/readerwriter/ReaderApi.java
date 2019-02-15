@@ -30,9 +30,21 @@ import javax.ws.rs.core.MediaType;
 public class ReaderApi {
 /*private static int readQuorum = Integer.parseInt(System.getenv("READ_QUORUM"));
 private static String REPLICA_MANAGER_NAME = "replica-manager";
-public static int REPLICA_MANAGER_NUM = Integer.parseInt(System.getenv("REPLICA_MANAGER_NUM"));
+public static int REPLICA_MANAGER_NUM = Integer.parseInt(System.getenv("REPLICA_MANAGER_NUM"));*/
 
-/** BUILD LIST OF REPLICA MANAGER URLS **/
+
+        
+        
+        
+        
+       
+        
+    //List<String> rm_urls = new ArrayList<String>();    
+    private int readQuorum = 1;
+    private int counterAck = 0;   
+    private static final String REST_URI = "http://replica:8080/ReplicaManagerHomework2-web/webresources/operazioni"; 
+    
+    //BUILD LIST OF REPLICA MANAGER URLS **/
         
         /*** 
          ** Urls will be like:
@@ -41,16 +53,12 @@ public static int REPLICA_MANAGER_NUM = Integer.parseInt(System.getenv("REPLICA_
          **   - ....
          ***/
      /*
-        
+    
         
         for(int i = 0; i < 5; ++i ) {
             rm_urls.add(REPLICA_MANAGER_NAME + "-" + Integer.toString(i) );
+    
         }*/
-        
-    //List<String> rm_urls = new ArrayList<String>();    
-    private int readQuorum = 1;
-    private int counterAck = 0;   
-    private static final String REST_URI = "http://replica:8080/ReplicaManagerHomework2-web/webresources/operazioni"; 
     @Context
     private UriInfo context;
 
@@ -66,6 +74,14 @@ public static int REPLICA_MANAGER_NUM = Integer.parseInt(System.getenv("REPLICA_
     @GET         
     @Produces(MediaType.TEXT_PLAIN)     
     public int readerAck(){              
+        /*
+        Client client = ClientBuilder.newClient();  
+        for(int i = 0; i < 5; i++){
+        if ("STATUS_OK_200".equals(client.target("http://" + rm_urls[i] + ":8080/ReplicaManagerHomework2-web/webresources/operazioni").path("sendAck").request(MediaType.TEXT_PLAIN).get(String.class)))
+        {
+            counterAck++;              
+        }  
+        }*/
         Client client = ClientBuilder.newClient();           
         if ("STATUS_OK_200".equals(client.target(REST_URI).path("sendAck").request(MediaType.TEXT_PLAIN).get(String.class)))
         {
@@ -87,6 +103,9 @@ public static int REPLICA_MANAGER_NUM = Integer.parseInt(System.getenv("REPLICA_
         int count = readerAck();
         Client client = ClientBuilder.newClient(); 
          if (count >= readQuorum){ 
+             /*for (int i = 0; i<READ_QUORUM; i++){
+             return client.target("http://" + rm_urls[Math.random() * 5] + ":8080/ReplicaManagerHomework2-web/webresources/operazioni").path("all").request(MediaType.TEXT_PLAIN).get(String.class);
+             }*/
            return client.target(REST_URI).path("all").request(MediaType.TEXT_PLAIN).get(String.class);
          }else return "Error!";
 	
@@ -105,6 +124,9 @@ public static int REPLICA_MANAGER_NUM = Integer.parseInt(System.getenv("REPLICA_
         int count = readerAck();
         Client client = ClientBuilder.newClient(); 
         if (count >= readQuorum){ 
+             /*for (int i = 0; i<READ_QUORUM; i++){
+             return client.target("http://" + rm_urls[Math.random() * 5] + ":8080/ReplicaManagerHomework2-web/webresources/operazioni").path("op").path(name).request(MediaType.TEXT_PLAIN).get(String.class);
+             }*/
         return client.target(REST_URI).path("op").path(name).request(MediaType.TEXT_PLAIN).get(String.class);
          }else return "Error!";
     }
@@ -121,6 +143,9 @@ public static int REPLICA_MANAGER_NUM = Integer.parseInt(System.getenv("REPLICA_
         int count = readerAck();
         Client client = ClientBuilder.newClient(); 
         if (count >= readQuorum){
+            /*for (int i = 0; i<READ_QUORUM; i++){
+             return client.target("http://" + rm_urls[Math.random() * 5] + ":8080/ReplicaManagerHomework2-web/webresources/operazioni").path("ord").request(MediaType.TEXT_PLAIN).get(String.class);
+             }*/
         return client.target(REST_URI).path("ord").path(String.valueOf(name)).request(MediaType.TEXT_PLAIN).get(String.class);
          }else return "Error!";
     }
