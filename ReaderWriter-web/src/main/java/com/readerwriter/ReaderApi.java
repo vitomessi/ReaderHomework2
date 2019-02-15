@@ -61,7 +61,7 @@ public static int REPLICA_MANAGER_NUM = Integer.parseInt(System.getenv("REPLICA_
 
     }
     /**
-     * ack
+     * ricezione ack da parte del replicaManager
      */
     @GET         
     @Produces(MediaType.TEXT_PLAIN)     
@@ -76,8 +76,8 @@ public static int REPLICA_MANAGER_NUM = Integer.parseInt(System.getenv("REPLICA_
     
 
     /**
-     * Retrieves representation of an instance of com.readerwriter.ReaderApi
-     * @return an instance of java.lang.String
+     * Get of all elements of rm
+     * @return 
      */
     @GET
     @Path("/all")
@@ -93,7 +93,8 @@ public static int REPLICA_MANAGER_NUM = Integer.parseInt(System.getenv("REPLICA_
     }
 
    /**
-     * Retrieves representation of an instance of com.readerwriter.ReaderApi
+     * Get the elements of name {name}
+     * @param name
      * @return an instance of java.lang.String
      */
     
@@ -109,7 +110,8 @@ public static int REPLICA_MANAGER_NUM = Integer.parseInt(System.getenv("REPLICA_
     }
     
     /**
-     * Retrieves representation of an instance of com.readerwriter.ReaderApi
+     * Get the elements of name {name} in order by insert
+     * @param name
      * @return an instance of java.lang.String
      */
     @GET

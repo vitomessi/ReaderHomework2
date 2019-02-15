@@ -31,7 +31,6 @@ public class ApplicationConfig  extends Application{
     private void addRestResourceClasses(Set<Class<?>> resources) {
         
         resources.add(com.readerwriter.ReaderApi.class);
-        resources.add(com.readerwriter.WriterApi.class);
         
     }
     
